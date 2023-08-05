@@ -1,0 +1,1 @@
+C:\Users\anton\OneDrive\Bureaublad\rust\restaurant\target\debug\librestaurant.rlib: C:\Users\anton\OneDrive\Bureaublad\rust\restaurant\src\front_of_house.rs C:\Users\anton\OneDrive\Bureaublad\rust\restaurant\src\lib.rs
