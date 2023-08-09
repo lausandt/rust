@@ -75,3 +75,30 @@ trait MakeNoise {
   
   
   impl MakeNoise for Cat {}
+
+  //Instead of a concrete type for the item parameter, we specify the impl keyword and the trait name. 
+  // This parameter accepts any type that implements the specified trait. 
+  pub fn notify(item: &impl Summary) {
+    println!("Breaking news! {}", item.summarize());
+  }
+
+  //implements the trait bound syntax, which
+  pub fn notifyTB<T: Summary>(item: &T) {
+    println!("Breaking news! {}", item.summarize());
+}
+
+pub fn notifyDuo<T: Summary>(item1: &T, item2: &T) {
+    println!("Breaking news! {} and {}", item1.summarize(), item2.summarize());
+}
+
+pub fn returns_summarizable() -> impl Summary {
+    Tweet {
+        username: String::from("Rhino"),
+        content: String::from(
+            "of course, as you probably already know, people you need to start wearing purple",
+        ),
+        reply: false,
+        retweet: false,
+    }
+}
+

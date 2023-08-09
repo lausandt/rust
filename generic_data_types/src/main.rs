@@ -1,5 +1,5 @@
-use generic_data_types::{Tweet, NewsArticle};
-use generic_data_types::Summary;
+use generic_data_types::{Tweet, NewsArticle, Summary, notify, notifyTB, notifyDuo, returns_summarizable};
+
 
 fn main() {
         let list_one = vec![34, 50, 25, 100, 65];
@@ -11,9 +11,9 @@ fn main() {
         println!("The largest number is {}", largest(&list_two));
 
         let tweet = Tweet {
-            username: String::from("horse_ebooks"),
+            username: String::from("Croc"),
             content: String::from(
-                "of course, as you probably already know, people",
+                "I am peckish! I need a snacky!",
             ),
             reply: false,
             retweet: false,
@@ -22,16 +22,32 @@ fn main() {
         println!("1 new tweet: {}", tweet.summarize());
 
         let article = NewsArticle {
-            headline: String::from("Penguins win the Stanley Cup Championship!"),
-            location: String::from("Pittsburgh, PA, USA"),
-            author: String::from("Iceburgh"),
+            headline: String::from("I am a wooly rhino!"),
+            location: String::from("Amsterdam, The Netherlands"),
+            author: String::from("George"),
             content: String::from(
-                "The Pittsburgh Penguins once again are the best \
-                 hockey team in the NHL.",
+                "George declares that he is a wooly rhino and not as some content a wooly heron."
+            ),
+        };
+
+        let article2 = NewsArticle {
+            headline: String::from("Croc is peckish!"),
+            location: String::from("Amsterdam, The Netherlands"),
+            author: String::from("Croc"),
+            content: String::from(
+                "I am peckish! I need a snacky!, Preferably a Cote Du Boeuf otherwise a blue heron will do fine",
             ),
         };
 
         println!("New article available! {}", article.summarize()); 
+
+        println!("{:?}",notify(&tweet));
+
+        println!("{:?}",notifyTB(&article));
+
+        println!("{:?}",notifyDuo(&article, &article2)); // cannot mix concrete types, unlike Haskell.
+
+        println!("{:?}",returns_summarizable().summarize());
 
 
 }
