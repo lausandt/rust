@@ -11,7 +11,7 @@ Most languages don’t distinguish between these two kinds of errors and handle 
 
 Rust requires you to acknowledge the possibility of an error and take some action before your code will compile. This requirement makes your program more robust by ensuring that you’ll discover errors and handle them appropriately before you’ve deployed your code to production!
 
-enum Result<<T, E>> {
+enum Result<T, E> {
     Ok(T),
     Err(E),
 }
