@@ -1,4 +1,4 @@
-use generic_data_types::{Tweet, NewsArticle, Summary, notify, notifyTB, notifyDuo, returns_summarizable};
+use generic_data_types::{Tweet, NewsArticle, Summary, Pair, notify, notifyTB, notifyDuo, returns_summarizable, displayable};
 
 
 fn main() {
@@ -48,6 +48,27 @@ fn main() {
         println!("{:?}",notifyDuo(&article, &article2)); // cannot mix concrete types, unlike Haskell.
 
         println!("{:?}",returns_summarizable().summarize());
+
+        println!("{}", returns_summarizable().summarize());
+
+        let pair = Pair {
+            x:5,
+            y:7,
+          };
+
+        println!("{:?}",pair.cmp_display());
+
+        let p = pair.new(16,8);
+
+        println!("{:?}",p.cmp_display());
+
+        let s = String::from("hello");
+
+        let mut s2 = displayable(s);
+      
+        //s2.push_str(" world");
+      
+        println!("{s2}");
 
 
 }

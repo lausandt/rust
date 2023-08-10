@@ -1,3 +1,6 @@
+
+use core::fmt::{Display, Debug};
+
 pub trait Summary {  // trait is a keyword
     fn summarize_author(&self) -> String;
 
@@ -91,6 +94,7 @@ pub fn notifyDuo<T: Summary>(item1: &T, item2: &T) {
     println!("Breaking news! {} and {}", item1.summarize(), item2.summarize());
 }
 
+//return type is a Summary
 pub fn returns_summarizable() -> impl Summary {
     Tweet {
         username: String::from("Rhino"),
@@ -102,3 +106,38 @@ pub fn returns_summarizable() -> impl Summary {
     }
 }
 
+pub fn notifyDouble(item: &(impl Summary + Display)) {
+    println!("Double trait: {item}");
+}
+
+// using a where clause
+pub fn _some_function<T, U>(t: &T, u: &U) -> i32
+where
+    T: Display + Clone,
+    U: Clone + Debug,
+{
+    1
+}
+
+pub struct Pair<T> {
+    pub x: T,
+    pub y: T,
+}
+
+impl<T> Pair<T> {
+    pub fn new(self, x: T, y: T) -> Self {
+        Self { x, y }
+    }
+}
+
+impl<T: Display + PartialOrd> Pair<T> {
+    pub fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+
+pub fn displayable<T: Display>(t: T) -> impl Display { t }
