@@ -7,15 +7,15 @@ Rust incorporated several features from functional languages:
 
  Rust’s closures are anonymous functions you can save in a variable or pass as arguments to other functions. This is not completely the same as an actual closure is an instance of a function, a value, whose non-local variables have been bound either to values or to storage locations. In Python:
 
- def f(x):
+ `def f(x):
     def g(y):
         return x + y
-    return g  
+    return g`  
 
 or 
 
-def h(x):
-    return lambda y: x + y 
+`def h(x):
+    return lambda y: x + y`
 
 a = f(6)
 
