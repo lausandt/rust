@@ -22,17 +22,30 @@ impl Config {
 
         Config {query, file_path, ignore_case}
     }
+    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
+        //the first value in the return value of env::args is the name of the program, the code below moves us to the next part
+        args.next(); 
 
-    pub fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments, there should be two");
-        }
+        //getting the query string from the args iterator
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
 
-        let query = args[1].clone();
-        let file_path = args[2].clone();
+        //getting the file path from the args iterator
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file path"),
+        };
+
         let ignore_case = env::var("IGNORE_CASE").is_ok();
 
-        Ok(Config { query, file_path, ignore_case })
+        Ok(Config {
+            query,
+            file_path,
+            ignore_case,
+        })
+
     }
 }
 
@@ -52,16 +65,11 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut result = Vec::new();
-    
-    for line in contents.lines() {
-        if line.contains(query){
-            result.push(line);
-        }
-    }
-    // println!("{:?}", result);
-    result
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {  
+    contents
+        .lines() // creates the iterator
+        .filter(|line| line.contains(query))// filter the iterator 
+        .collect() // collect transforms an iterator into a collection
 }
 
 pub fn search_case_insensitive<'a>(
@@ -69,15 +77,10 @@ pub fn search_case_insensitive<'a>(
     contents: &'a str,
 ) -> Vec<&'a str> {
     let query = query.to_lowercase();
-    let mut results = Vec::new();
-
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            results.push(line);
-        }
-    }
-
-    results
+    contents
+        .lines() // creates the iterator
+        .filter(|line| line.contains(&query))// filter the iterator 
+        .collect() // collect transforms an iterator into a collection
 }
 
 #[cfg(test)]
