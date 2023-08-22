@@ -1,0 +1,1 @@
+C:\Users\anton\OneDrive\Bureaublad\rust\functional-features\iterators\target\debug\iterators.exe: C:\Users\anton\OneDrive\Bureaublad\rust\functional-features\iterators\src\lib.rs C:\Users\anton\OneDrive\Bureaublad\rust\functional-features\iterators\src\main.rs
