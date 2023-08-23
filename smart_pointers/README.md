@@ -29,8 +29,4 @@ Rust does deref coercion when it finds types and trait implementations in three 
 
 Immutable references will never coerce to mutable references. Because of the borrowing rules, if you have a mutable reference, that mutable reference must be the only reference to that data (otherwise, the program wouldn’t compile).
 
-The Rust type Rc<T>, which is an abbreviation for reference counting enables multiple ownership of values by variables. The Rc<T> type keeps track of the number of references to a value to determine whether or not the value is still in use. If there are zero references to a value, the value can be cleaned up without any references becoming invalid.
 
-Use the Rc<T> type if you want to allocate some data on the heap for multiple parts of the program to read and you can’t determine at compile time which part will finish using the data last. after all if we knew which part would finish last, we could just make that part the data’s owner, and the normal ownership rules enforced at compile time would take effect.
-
-Rc<T> is only for use in single-threaded scenarios!
