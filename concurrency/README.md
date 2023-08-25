@@ -35,4 +35,5 @@ fn main() {
     println!("Got: {}", received);
 }
  ```
+ Won't compile the ownership of val in the print has been moved to first the transmitter than to the receiver
  

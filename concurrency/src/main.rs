@@ -69,4 +69,88 @@ fn main() {
     let received = rx.recv().unwrap();
     println!("Got: {}", received);
 
+    let (tx, rx) = mpsc::channel();
+
+
+    let tx1 = tx.clone();
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("George"),
+            String::from("I usurped your thread"),
+        ];
+
+        for val in vals {
+            tx1.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("more"),
+            String::from("messages"),
+            String::from("for"),
+            String::from("you"),
+            String::from("from George the Usurper"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+
+    let (server_tx, client_rx) = mpsc::channel();
+
+    let (client_tx, server_rx) = mpsc::channel();
+
+    let server = thread::spawn(move || {
+
+        let mut n = 0;
+
+        loop {
+
+            match server_rx.recv().unwrap() {
+
+                ClientMessage::Quit => break,
+
+                ClientMessage::Incr => n += 1,
+
+                ClientMessage::Get => server_tx.send(ServerMessage::Get(n)).unwrap()
+
+            }
+
+        }
+
+    });
+
+
+    for msg in [ClientMessage::Incr, ClientMessage::Get, ClientMessage::Quit] {
+
+        client_tx.send(msg).unwrap();
+
+    }
+
+
+    if let ServerMessage::Get(n) = client_rx.recv().unwrap() {
+
+        println!("{}", n)
+
+    }
+
+
+    server.join().unwrap();
+
+    
+
 }
+
+enum ClientMessage { Incr, Get, Quit }
+
+enum ServerMessage { Get(usize) }
