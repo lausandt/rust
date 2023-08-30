@@ -1,6 +1,17 @@
 use std::ops::Add;
 use std::fmt;
 
+fn returns_closure() -> Box<dyn Fn(i32) -> i32> {
+    Box::new(|x| x + 1)
+}
+
+//type alias
+type Kilometer = i32;
+
+//newtype
+struct Nanometer(i32);
+
+
 mod inner {
 
     pub trait A {
@@ -149,4 +160,38 @@ fn main() {
     use inner::{P, B};    
 
     println!("{}", P.f());  
+
+    let x: i32 = 5;
+    let y: Kilometer = 5;
+
+    println!("x + y = {}", x + y);
+    
+    let list_of_numbers = vec![1, 2, 3];
+    let list_of_strings: Vec<String> =
+        list_of_numbers.iter().map(ToString::to_string).collect();
+    
+    println!("this uses map and a real function instead of a lambda {:?}", list_of_strings);
+
+    let list_of_numbers = vec![1, 2, 3];
+    let list_of_strings: Vec<String> =
+        list_of_numbers.iter().map(|i| i.to_string()).collect();
+
+    println!("this uses map and a lambda instead of a real function {:?}", list_of_strings);
+
+
+    #[derive(Debug)]
+    enum Status {
+        Value(u32), //initializer function
+        Stop,
+    }
+
+    // the initializer function allows me to wrap the number with a Value
+    let list_of_statuses: Vec<Status> = (0u32..20).map(Status::Value).collect();
+
+    println!("{:?}", list_of_statuses);
+
+    let x = returns_closure();
+
+    println!("{}",x(5));
+    
 }
